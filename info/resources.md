@@ -1,0 +1,1 @@
+Our proposed ML model: https://github.com/J3lly-Been/YOLOv8-HumanDetection

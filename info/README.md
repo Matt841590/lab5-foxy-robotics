@@ -22,6 +22,5 @@ Startup + conneciton Procedure (ssh)
 -run the command "ssh ubuntu@<your_ip>" and when asked for the password enter "ubuntu"
 -You are now shelled in!
 
-
 To get into ROS2 Workspace
 -cd into "ros2_workspace" from
