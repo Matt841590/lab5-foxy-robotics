@@ -4,6 +4,10 @@ Manual Pages: https://docs.hiwonder.com/projects/JetRover/en/jetson-orin-nano/do
 
 Our robot's IP(?): 192.168.149.1 (we got this via NoMachine)
 
+For additional info, refer to /info and the files within
+
+All of our implementation lives in /src
+
 Startup + Connection Procedure (using NoMachine):
 -turn robot on (switch is the silver button on the chassis)
 -connect to hotspot (working is HW25029764, pw: hiwonder)
