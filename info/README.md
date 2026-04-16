@@ -12,7 +12,7 @@ Startup + Connection Procedure (using NoMachine):
 -select your client from the listed, login (un:ubuntu, pw: ubuntu)
   - Note: You can only hvae one client connected!
   - Note: You have a couple seconds latency(?)
--You now should have windowe access!
+-You now should have windowed access!
 
 Startup + conneciton Procedure (ssh)
 -turn robot on (switch is the silver button on the chassis)
