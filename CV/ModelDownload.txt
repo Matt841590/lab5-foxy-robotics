@@ -1,0 +1,13 @@
+1. Establish a folder for the model:
+
+git clone https://github.com/J3lly-Been/YOLOv8-HumanDetection.git
+cd YOLOv8-HumanDetection
+
+2. Install Dependencies
+
+pip install -r requirements.txt
+pip install ultralytics
+
+3. Download run.py, which is contained in the CV Folder and place it in /YOLOv8-HumanDetection
+
+4. python run.py
