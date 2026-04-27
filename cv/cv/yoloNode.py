@@ -13,7 +13,7 @@ class YoloHumanDetectionNode(Node):
         super().__init__('yolo_human_detection')
 
         # Load model
-        self.model = YOLO("best.pt")
+        self.model = YOLO("/home/ubuntu/YOLOv8-HumanDetection/best.pt")
 
         # Bridge between ROS and OpenCV
         self.bridge = CvBridge()
