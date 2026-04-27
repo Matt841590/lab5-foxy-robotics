@@ -21,7 +21,7 @@ class YoloHumanDetectionNode(Node):
         # Subscribe to camera topic
         self.subscription = self.create_subscription(
             Image,
-            '/depth_cam/RGB/image_raw',   # <-- change if needed
+            '/depth_cam/rgb/image_raw',   # <-- change if needed
             self.image_callback,
             10
         )
