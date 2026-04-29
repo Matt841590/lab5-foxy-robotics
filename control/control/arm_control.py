@@ -20,11 +20,11 @@ class ArmControlNode(Node):
         self.initial_timer = self.create_timer(0.5, self.move_arm_up())
 
         # - boolean so it is sent once
-        self.sent = False
+        sent = False
 
     # - function to publish "up" command 
     def move_arm_up(self):
-        if(self.sent == True):
+        if(sent == True):
             return
 
         # - making the message
@@ -46,7 +46,7 @@ class ArmControlNode(Node):
         self.arm_publisher.publish(up_arm_msg)
 
         # - update boolean
-        self.sent = True
+        sent = True
 
         # - destroying the timer
         self.initial_timer.cancel()
