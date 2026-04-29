@@ -12,8 +12,7 @@ class ArmControlNode(Node):
         self.sent = False
 
         # - make arm publisher
-        self.arm_publisher = self.create_publisher
-        (
+        self.arm_publisher = self.create_publisher(
             ServosPosition,
             "/ros_robot_controller/bus_servo/set_position",
             10
