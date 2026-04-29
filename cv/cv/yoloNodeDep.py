@@ -9,9 +9,9 @@ import cv2
 import numpy as np
 
 
-class YoloHumanDetectionNode(Node):
+class YoloHumanDetectionNodeDepth(Node):
     def __init__(self):
-        super().__init__('yolo_human_detection')
+        super().__init__('yolo_human_detection_depth')
 
         # Load model
         self.model = YOLO("/home/ubuntu/YOLOv8-HumanDetection/best.pt")
@@ -107,7 +107,7 @@ class YoloHumanDetectionNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = YoloHumanDetectionNode()
+    node = YoloHumanDetectionNodeDepth()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
