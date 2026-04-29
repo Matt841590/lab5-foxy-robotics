@@ -24,17 +24,19 @@ class ArmControlNode(Node):
 
     # - function to publish "up" command 
     def move_arm_up(self):
-        if(self.sent == True):
+        if self.sent:
             return
 
-        # - making the message
-        up_arm_msg = ServosPosition()
+        # Wait until controller is connected
+        if self.arm_publisher.get_subscription_count() == 0:
+            self.get_logger().info("Waiting for servo controller...")
+            return
 
-        # - populating the duration field
-        up_arm_msg.duration = 2.0
+        self.get_logger().info("Sending arm UP command")
 
-        # - populating the rest of the message field
-        up_arm_msg.position = [
+        msg = ServosPosition()
+        msg.duration = 2.0
+        msg.position = [
             ServoPosition(id=1, position=500),
             ServoPosition(id=2, position=500),
             ServoPosition(id=3, position=500),
@@ -42,13 +44,9 @@ class ArmControlNode(Node):
             ServoPosition(id=5, position=500),
         ]
 
-        # - publishing the mesage
-        self.arm_publisher.publish(up_arm_msg)
+        self.arm_publisher.publish(msg)
 
-        # - update boolean
         self.sent = True
-
-        # - destroying the timer
         self.initial_timer.cancel()
 
     # - function to publish "down" command
