@@ -10,7 +10,7 @@ cd /tmp/yolo_packages
 pip install *.whl
 
 
-> ros2 topic pub /ros_robot_controller/bus_servo/set_position ros_robot_controller_msgs/msg/ServosPosition "{
+ros2 topic pub /ros_robot_controller/bus_servo/set_position ros_robot_controller_msgs/msg/ServosPosition "{
   duration: 2.0,
   position: [
     {id: 1, position: 520},
