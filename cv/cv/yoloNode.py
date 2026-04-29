@@ -39,6 +39,8 @@ class YoloHumanDetectionNode(Node):
         # Draw detections
         annotated = results[0].plot()
 
+        self.get_logger().info("annotated: ", annotated)
+
         # Show result
         cv2.imshow("YOLO Detection", annotated)
         cv2.waitKey(1)
