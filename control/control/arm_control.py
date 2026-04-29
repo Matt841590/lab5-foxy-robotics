@@ -8,6 +8,9 @@ class ArmControlNode(Node):
         # - super init
         super().__init__("arm_control_node")
 
+         # - boolean so it is sent once
+        sent = False
+
         # - make arm publisher
         self.arm_publisher = self.create_publisher
         (
@@ -19,8 +22,6 @@ class ArmControlNode(Node):
         # - make timer to wait and the publish the command
         self.initial_timer = self.create_timer(0.5, self.move_arm_up())
 
-        # - boolean so it is sent once
-        sent = False
 
     # - function to publish "up" command 
     def move_arm_up(self):
