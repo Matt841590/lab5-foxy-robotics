@@ -19,7 +19,24 @@ ros2 topic pub /ros_robot_controller/bus_servo/set_position ros_robot_controller
     {id: 4, position: 300},
     {id: 5, position: 500}
   ]
-}"
+}" --once
 
 run bash to swap to bash
 
+Presumably, everything is 0-1000.
+DO NOT PUSH 0, EPECIALLY TO id 1
+The ids are sorted bottom servo to top
+
+
+Home position:
+
+ros2 topic pub /ros_robot_controller/bus_servo/set_position ros_robot_controller_msgs/msg/ServosPosition "{
+  duration: 2.0,
+  position: [
+    {id: 1, position: 500},
+    {id: 2, position: 700},
+    {id: 3, position: 100},
+    {id: 4, position: 300},
+    {id: 5, position: 500}
+  ]
+}" --once
