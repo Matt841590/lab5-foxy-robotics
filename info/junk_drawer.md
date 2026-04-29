@@ -19,7 +19,10 @@ pip install *.whl
     {id: 4, position: 300},
     {id: 5, position: 500}
   ]
-}"
+}" --once
 
 run bash to swap to bash
 
+Presumably, everything is 0-1000.
+DO NOT PUSH 0, EPECIALLY TO id 1
+The ids are sorted bottom servo to top
