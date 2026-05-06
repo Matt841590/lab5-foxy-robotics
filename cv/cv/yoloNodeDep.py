@@ -46,7 +46,11 @@ class YoloHumanDetectionNodeDepth(Node):
             10
         )
 
+        # PD controller variables
+        self.kp = 1.5
+
         self.get_logger().info("YOLO Human Detection Node Started")
+
 
     def depth_callback(self, msg):
         """Store latest depth frame"""
@@ -143,7 +147,7 @@ class YoloHumanDetectionNodeDepth(Node):
         twist = Twist()
 
         # forward speed (you can also make this depth-based later)
-        twist.linear.x = 0.1
+        twist.linear.x = self.Kp * closest_depth
 
         # P-controller for steering
         error = (w // 2) - cx
