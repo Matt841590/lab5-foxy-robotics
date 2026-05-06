@@ -122,6 +122,8 @@ class YoloHumanDetectionNodeDepth(Node):
         )
 
         self.get_logger().info(f"CLOSEST center: {cx},{cy} depth: {closest_depth}")
+        cv2.imshow("YOLO + Depth", annotated)
+        cv2.waitKey(1)
 
         
 
