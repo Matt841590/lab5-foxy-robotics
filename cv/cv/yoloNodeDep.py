@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Image
+from geometry_msgs import geometry_msgs/msg/Twist
 from cv_bridge import CvBridge
 
 from ultralytics import YOLO
@@ -35,6 +36,13 @@ class YoloHumanDetectionNodeDepth(Node):
             Image,
             '/depth_cam/depth/image_raw',
             self.depth_callback,
+            10
+        )
+
+        #publisher to the wheels
+        self.drive_publisher = self.create_publisher(
+            Twist,
+            '/cmd_vel',
             10
         )
 
@@ -106,7 +114,7 @@ class YoloHumanDetectionNodeDepth(Node):
         x1, y1, x2, y2 = closest_box
         cx, cy = closest_center
 
-        label = f"Depth: {closest_depth:.2f}" if isinstance(closest_depth, float) else f"Depth: {closest_depth}"
+        label = f"({cx}, {cy}) Depth: {closest_depth:.2f}" if isinstance(closest_depth, float) else f"({cx}, {cy}) Depth: {closest_depth}"
 
         cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
         cv2.circle(annotated, (cx, cy), 5, (0, 0, 255), -1)
