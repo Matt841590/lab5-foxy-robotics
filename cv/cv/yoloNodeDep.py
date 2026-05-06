@@ -142,13 +142,12 @@ class YoloHumanDetectionNodeDepth(Node):
         # - publisher publishing drive commands
         twist = Twist()
 
-        twist.linear.x = 0.1   # forward speed
-        twist.linear.y = 0.0
-        twist.linear.z = 0.0
+        # forward speed (you can also make this depth-based later)
+        twist.linear.x = 0.1
 
-        twist.angular.x = 0.0
-        twist.angular.y = 0.0
-        twist.angular.z = 0.3 * (300 - cx)
+        # P-controller for steering
+        error = (w // 2) - cx
+        twist.angular.z = 0.002 * error
 
         self.drive_publisher.publish(twist)
 
