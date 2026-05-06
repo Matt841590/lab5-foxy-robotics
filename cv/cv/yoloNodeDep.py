@@ -139,6 +139,19 @@ class YoloHumanDetectionNodeDepth(Node):
 
         self.get_logger().info(f"CLOSEST center: {cx},{cy} depth: {closest_depth}")
 
+        # - publisher publishing drive commands
+        twist = Twist()
+
+        twist.linear.x = 0.5   # forward speed
+        twist.linear.y = 0.0
+        twist.linear.z = 0.0
+
+        twist.angular.x = 0.0
+        twist.angular.y = 0.0
+        twist.angular.z = 0.3  # turn left
+
+        self.drive_publisher.publish(msg)
+
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
 
