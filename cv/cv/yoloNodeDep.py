@@ -147,7 +147,7 @@ class YoloHumanDetectionNodeDepth(Node):
         twist = Twist()
 
         # forward speed (you can also make this depth-based later)
-        twist.linear.x = self.Kp * closest_depth
+        twist.linear.x = self.kp * closest_depth
 
         # P-controller for steering
         error = (w // 2) - cx
