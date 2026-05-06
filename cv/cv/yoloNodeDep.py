@@ -148,7 +148,7 @@ class YoloHumanDetectionNodeDepth(Node):
 
         # forward speed (you can also make this depth-based later)
         if closest_depth < 1000:
-            twist.linear.x = 0
+            twist.linear.x = 0.0
         else:
             twist.linear.x = self.kp * closest_depth
 
