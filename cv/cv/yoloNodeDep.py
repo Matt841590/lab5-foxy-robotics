@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 
 from sensor_msgs.msg import Image
-from geometry_msgs import geometry_msgs/msg/Twist
+from geometry_msgs.msg import Twist   # ✅ FIXED IMPORT
 from cv_bridge import CvBridge
 
 from ultralytics import YOLO
@@ -39,7 +39,7 @@ class YoloHumanDetectionNodeDepth(Node):
             10
         )
 
-        #publisher to the wheels
+        # Publisher to the wheels
         self.drive_publisher = self.create_publisher(
             Twist,
             '/cmd_vel',
@@ -52,10 +52,7 @@ class YoloHumanDetectionNodeDepth(Node):
         """Store latest depth frame"""
         try:
             depth_img = self.bridge.imgmsg_to_cv2(msg)
-
-            # Keep raw depth (handle both 16UC1 and 32FC1)
             self.depth_frame = depth_img
-
         except Exception as e:
             self.get_logger().error(f"Depth conversion error: {e}")
 
@@ -70,9 +67,18 @@ class YoloHumanDetectionNodeDepth(Node):
 
         annotated = frame.copy()
 
+        # ✅ FIX: handle missing depth safely
+        if self.depth_frame is None:
+            self.get_logger().warn("No depth frame yet")
+            cv2.imshow("YOLO + Depth", annotated)
+            cv2.waitKey(1)
+            return
+
         # Ensure detections exist
         if results.boxes is None or len(results.boxes) == 0:
             self.get_logger().warn("No detections")
+            cv2.imshow("YOLO + Depth", annotated)
+            cv2.waitKey(1)
             return
 
         h, w = frame.shape[:2]
@@ -95,11 +101,11 @@ class YoloHumanDetectionNodeDepth(Node):
             if isinstance(depth_value, np.ndarray):
                 depth_value = depth_value[0]
 
-            # Skip invalid depth values (very important)
+            # Skip invalid depth values
             if depth_value == 0 or np.isnan(depth_value):
                 continue
 
-            # Find closest object (smallest depth)
+            # Find closest object
             if depth_value < closest_depth:
                 closest_depth = depth_value
                 closest_box = (x1, y1, x2, y2)
@@ -108,6 +114,8 @@ class YoloHumanDetectionNodeDepth(Node):
         # If no valid depth found
         if closest_box is None:
             self.get_logger().warn("No valid depth for any detection")
+            cv2.imshow("YOLO + Depth", annotated)
+            cv2.waitKey(1)
             return
 
         # Draw ONLY the closest box
@@ -130,10 +138,9 @@ class YoloHumanDetectionNodeDepth(Node):
         )
 
         self.get_logger().info(f"CLOSEST center: {cx},{cy} depth: {closest_depth}")
+
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
-
-        
 
 
 def main(args=None):
@@ -142,6 +149,3 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-
-
-    # - perosn middle is at 300
