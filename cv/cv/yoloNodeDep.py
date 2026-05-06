@@ -68,34 +68,41 @@ class YoloHumanDetectionNodeDepth(Node):
 
         h, w = frame.shape[:2]
 
-        if results.boxes is None or len(results.boxes) == 0:
-            self.get_logger().warn("No boxes found")
-            return
+        for box in results.boxes:
+            x1, y1, x2, y2 = box.xyxy[0].cpu().numpy().astype(int)
 
-        boxes = results.boxes.xyxy.cpu().numpy()
-
-        for box in boxes:
-            x1, y1, x2, y2 = map(int, box)
-
+            # Compute center of bounding box
             cx = int((x1 + x2) / 2)
             cy = int((y1 + y2) / 2)
 
+            # Clamp to image bounds
             cx = np.clip(cx, 0, w - 1)
             cy = np.clip(cy, 0, h - 1)
 
+            # Get depth value at center pixel
             depth_value = self.depth_frame[cy, cx]
 
+            # Handle depth formats
             if isinstance(depth_value, np.ndarray):
                 depth_value = depth_value[0]
 
             label = f"Depth: {depth_value:.2f}" if np.issubdtype(type(depth_value), np.floating) else f"Depth: {depth_value}"
 
+            # Draw bbox + center
             cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.circle(annotated, (cx, cy), 4, (0, 0, 255), -1)
-            cv2.putText(annotated, label, (x1, y1 - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+            cv2.putText(
+                annotated,
+                label,
+                (x1, y1 - 10),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.5,
+                (255, 255, 255),
+                2
+            )
 
-            self.get_logger().warn(f"center is at: {cx},{cy}")
+            # - print center point
+            self.get_logger().info(f"center is at: {cx},{cy}")
 
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
