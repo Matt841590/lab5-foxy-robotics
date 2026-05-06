@@ -47,7 +47,7 @@ class YoloHumanDetectionNodeDepth(Node):
         )
 
         # PD controller variables
-        self.kp = 1.5
+        self.kp = 0.01
 
         self.get_logger().info("YOLO Human Detection Node Started")
 
