@@ -22,7 +22,7 @@ setup(
         'console_scripts': [
              # format: 'command_name = package.module:function'
             'yolo_node = cv.yoloNode:main',
-            'yolo_node2 = cv.yoloNodeDep:main'
+            'yolo_depth_node = cv.yoloNodeDep:main'
         ],
     },
 )

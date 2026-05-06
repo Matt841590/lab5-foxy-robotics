@@ -101,6 +101,9 @@ class YoloHumanDetectionNodeDepth(Node):
                 2
             )
 
+            # - print center point
+            self.get_logger().info(f"center is at: {cx},{cy}")
+
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
 
