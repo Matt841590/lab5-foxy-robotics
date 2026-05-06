@@ -150,7 +150,7 @@ class YoloHumanDetectionNodeDepth(Node):
         twist.angular.y = 0.0
         twist.angular.z = 0.3 * (300 - cx)
 
-        self.drive_publisher.publish(msg)
+        self.drive_publisher.publish(twist)
 
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
