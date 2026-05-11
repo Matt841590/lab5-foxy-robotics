@@ -160,7 +160,7 @@ class YoloHumanDetectionNodeDepth(Node):
         if closest_depth < 1000:
             twist.linear.x = 0.0
 
-            if self.played:
+            if not self.played:
                 self.played = True
                 # Play
                 play(self.audio)
