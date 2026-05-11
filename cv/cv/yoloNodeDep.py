@@ -19,7 +19,7 @@ class YoloHumanDetectionNodeDepth(Node):
         super().__init__('yolo_human_detection_depth')
 
         # read in audio
-        audio = AudioSegment.from_file("Foxy's Scream [FNAF] [Ultimate Sound Effects].mp3")
+        audio = AudioSegment.from_file("scream.mp3")
 
         self.played = True
 
