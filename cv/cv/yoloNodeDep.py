@@ -155,6 +155,7 @@ class YoloHumanDetectionNodeDepth(Node):
 
         # - publisher publishing drive commands
         twist = Twist()
+        self.drive_publisher.publish(twist)
 
         # forward speed (you can also make this depth-based later)
         if closest_depth < 1000:
