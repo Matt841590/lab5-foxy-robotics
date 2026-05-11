@@ -19,7 +19,7 @@ class YoloHumanDetectionNodeDepth(Node):
         super().__init__('yolo_human_detection_depth')
 
         # read in audio
-        audio = AudioSegment.from_file("scream.mp3")
+        audio = AudioSegment.from_file("/home/ubuntu/lab5-foxy-robotics/cv/cv/scream.mp3")
 
         self.played = True
 
