@@ -28,9 +28,9 @@ class ArmControlNode(Node):
             return
 
         # Wait until controller is connected
-        if self.arm_publisher.get_subscription_count() == 0:
-            self.get_logger().info("Waiting for servo controller...")
-            return
+        # if self.arm_publisher.get_subscription_count() == 0:
+        #     self.get_logger().info("Waiting for servo controller...")
+        #     return
 
         self.get_logger().info("Sending arm UP command")
 
