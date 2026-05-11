@@ -9,10 +9,20 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 
+from pydub import AudioSegment
+from pydub.playback import play
+from io import BytesIO
+
 
 class YoloHumanDetectionNodeDepth(Node):
     def __init__(self):
         super().__init__('yolo_human_detection_depth')
+
+        # read in audio
+        audio = AudioSegment.from_file("Foxy's Scream [FNAF] [Ultimate Sound Effects].mp3")
+
+        self.played = True
+
 
         # Load model
         self.model = YOLO("/home/ubuntu/YOLOv8-HumanDetection/best.pt")
@@ -149,7 +159,15 @@ class YoloHumanDetectionNodeDepth(Node):
         # forward speed (you can also make this depth-based later)
         if closest_depth < 1000:
             twist.linear.x = 0.0
+
+            if self.played:
+                self.played = True
+                # Play
+                play(audio)
+
+
         else:
+            self.played = False
             twist.linear.x = self.kp * closest_depth
 
         # P-controller for steering
