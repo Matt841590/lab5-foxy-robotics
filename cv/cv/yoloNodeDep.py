@@ -9,6 +9,8 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 
+import threading
+
 from pydub import AudioSegment
 from pydub.playback import play
 from io import BytesIO
@@ -60,6 +62,11 @@ class YoloHumanDetectionNodeDepth(Node):
         self.kp = 0.01
 
         self.get_logger().info("YOLO Human Detection Node Started")
+
+
+    def play_audio_async(self, audio_segment):
+        """Play audio in a separate thread"""
+        threading.Thread(target=play, args=(audio_segment,), daemon=True).start()
 
 
     def depth_callback(self, msg):
@@ -158,13 +165,13 @@ class YoloHumanDetectionNodeDepth(Node):
         self.drive_publisher.publish(twist)
 
         # forward speed (you can also make this depth-based later)
-        if closest_depth < 1000:
+        if closest_depth < 500:
             twist.linear.x = 0.0
 
             if not self.played:
                 self.played = True
                 # Play
-                play(self.audio)
+                self.play_audio_async(self.audio)
 
 
         else:
