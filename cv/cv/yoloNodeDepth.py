@@ -1,16 +1,21 @@
+# - basic ros2 imports 
 import rclpy
 from rclpy.node import Node
 
+# - imports for input and output message types
 from sensor_msgs.msg import Image
-from geometry_msgs.msg import Twist   # ✅ FIXED IMPORT
-from cv_bridge import CvBridge
+from geometry_msgs.msg import Twist
 
+# - imports for the cv model
+from cv_bridge import CvBridge
 from ultralytics import YOLO
 import cv2
 import numpy as np
 
+# - import threading to play the audio clip in a multithreaded way
 import threading
 
+# - imports to allow us to play an arbitrary audio file
 from pydub import AudioSegment
 from pydub.playback import play
 from io import BytesIO
@@ -20,22 +25,20 @@ class YoloHumanDetectionNodeDepth(Node):
     def __init__(self):
         super().__init__('yolo_human_detection_depth')
 
-        # read in audio
+        # - read in audio file
         self.audio = AudioSegment.from_file("/home/ubuntu/lab5-foxy-robotics/cv/cv/scream.mp3")
-
         self.played = False
 
-
-        # Load model
+        # - Load model
         self.model = YOLO("/home/ubuntu/YOLOv8-HumanDetection/best.pt")
 
-        # Bridge
+        # - Bridge
         self.bridge = CvBridge()
 
-        # Latest depth frame storage
+        # - Latest depth frame storage
         self.depth_frame = None
 
-        # RGB subscriber
+        # - RGB subscriber
         self.create_subscription(
             Image,
             '/depth_cam/rgb/image_raw',
@@ -43,7 +46,7 @@ class YoloHumanDetectionNodeDepth(Node):
             10
         )
 
-        # Depth subscriber
+        # - Depth subscriber
         self.create_subscription(
             Image,
             '/depth_cam/depth/image_raw',
@@ -51,24 +54,29 @@ class YoloHumanDetectionNodeDepth(Node):
             10
         )
 
-        # Publisher to the wheels
+        # - Publisher to the wheels
         self.drive_publisher = self.create_publisher(
             Twist,
             '/cmd_vel',
             10
         )
 
-        # PD controller variables
+        # - PD controller variables
         self.kp = 0.01
 
+        # - variables to hold the centroid pixel's x and y values
+        self.cx = 0.0
+        self.cy = 0.0
+
+        # - status message indicating clean start
         self.get_logger().info("YOLO Human Detection Node Started")
 
-
+    # - allows us to play audio in a multithreaded way
     def play_audio_async(self, audio_segment):
         """Play audio in a separate thread"""
         threading.Thread(target=play, args=(audio_segment,), daemon=True).start()
 
-
+    # - extracts an array of depths corresponding to the pixels in the camera feed
     def depth_callback(self, msg):
         """Store latest depth frame"""
         try:
@@ -77,6 +85,7 @@ class YoloHumanDetectionNodeDepth(Node):
         except Exception as e:
             self.get_logger().error(f"Depth conversion error: {e}")
 
+    # - extracts the camera image, feeds it into YOLO, drives robot
     def rgb_callback(self, msg):
         self.get_logger().info("Received RGB frame")
 
@@ -141,12 +150,12 @@ class YoloHumanDetectionNodeDepth(Node):
 
         # Draw ONLY the closest box
         x1, y1, x2, y2 = closest_box
-        cx, cy = closest_center
+        self.cx, self.cy = closest_center
 
-        label = f"({cx}, {cy}) Depth: {closest_depth:.2f}" if isinstance(closest_depth, float) else f"({cx}, {cy}) Depth: {closest_depth}"
+        label = f"({self.cx}, {self.cy}) Depth: {closest_depth:.2f}" if isinstance(closest_depth, float) else f"({self.cx}, {self.cy}) Depth: {closest_depth}"
 
         cv2.rectangle(annotated, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        cv2.circle(annotated, (cx, cy), 5, (0, 0, 255), -1)
+        cv2.circle(annotated, (self.cx, self.cy), 5, (0, 0, 255), -1)
 
         cv2.putText(
             annotated,
@@ -158,7 +167,7 @@ class YoloHumanDetectionNodeDepth(Node):
             2
         )
 
-        self.get_logger().info(f"CLOSEST center: {cx},{cy} depth: {closest_depth}")
+        self.get_logger().info(f"CLOSEST center: {self.cx},{self.cy} depth: {closest_depth}")
 
         # - publisher publishing drive commands
         twist = Twist()
@@ -187,10 +196,14 @@ class YoloHumanDetectionNodeDepth(Node):
         cv2.imshow("YOLO + Depth", annotated)
         cv2.waitKey(1)
 
-
+# - main
 def main(args=None):
     rclpy.init(args=args)
     node = YoloHumanDetectionNodeDepth()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
+
+# - entry point
+if __name__ == '__main__':
+    main()
