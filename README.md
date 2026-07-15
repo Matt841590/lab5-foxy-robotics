@@ -2,7 +2,7 @@
 
 This project was created by myself and two of my classmates (Hannah Jasper and Will Hunt) at Colorado School of Mines for the "Lab 5: Make Something Cool" assignment in MEGN 441. 
 
-It enables a HIWONDER Jetson robot (when equipped with a speaker) to track the closest person it can find, follow them until it reaches approx. 1 meter distance, and then play an audio clip (in our case, the whithered foxy jumpscare from Five Nights at Freddy's 2)
+It enables a HIWONDER Jetson robot (when equipped with a speaker) to track the closest person it can find, follow them until it reaches approx. 1 meter distance, and then play an audio clip (in our case, the withered foxy jumpscare from Five Nights at Freddy's 2)
 
 We were unable to add the speaker (A JBL Flip) via bluetooth, so we used a USB-C to USB-C cable to plug it into the robot directly.
 
@@ -37,7 +37,7 @@ Robot Link: https://www.hiwonder.com/products/jetrover?variant=41198996422743
 - run the command "ssh -Y ubuntu@<your_ip>" and when asked for the password enter "ubuntu"
 - you are now shelled in!
 
-# Speaker Connection Isntructions
+# Speaker Connection Instructions
 - ensure your speaker is on and plugged into one of the USB-C ports on the jetson
 - Enter the ubuntu audio menu in the top right of the touchscreen and select your speaker as the audio output device
 - - TODO: find a way to do this via command line?
