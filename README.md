@@ -10,6 +10,8 @@ Manual Pages: https://docs.hiwonder.com/projects/JetRover/en/jetson-orin-nano/do
 
 Robot Link: https://www.hiwonder.com/products/jetrover?variant=41198996422743
 
+CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
+
 # Startup instructions
 
 ## Startup + Connection Procedure (using NoMachine):
@@ -18,7 +20,7 @@ Robot Link: https://www.hiwonder.com/products/jetrover?variant=41198996422743
  - - TODO: find a way to change this? 
 - open your NoMachine client (install from https://www.nomachine.com/)
 - select your client from the listed, login (un:ubuntu, pw: ubuntu)
- - - Note: You can only hvae one client connected!
+ - - Note: You can only have one client connected!
  - - Note: You have a couple seconds latency(?)
 - You now should have windowed access!
 
