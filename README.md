@@ -73,13 +73,15 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 
 - In T1 press CTRL + C to return the arm to the start position and stop the node
 
+**OR**
+
+- In the terminal wher eyou ran the launchfile, press CTRL + C to stop it all!
+
 # Explanation of Function
 
+![alt text](img_src/block_diagram.png)
+
 This is a YOLO (You Only Look Once) CV model with a ROS2 skeleton enabling it to take input from a RGBD camera and transform this into distance and heading information that is then turned into motion.
-
-RGB camera feed --(/depth_cam/rgb/image_raw)--> yoloNodeDep.rgb_callback
-
-Depth camera feed --(/depth_cam/depth/image_raw)--> yoloNodeDep.depth_callabck
 
 From here, the node internally extracts the bounding box associated with the closest human and determines a centroid pixel. Depth information can be extracted for this pixel, and heading information can be extracted by using the position of the centroid pixel relaive to the middle pixel in the feed (whoch is directly in front of the robot). 
 
