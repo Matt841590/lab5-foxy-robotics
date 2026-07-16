@@ -46,6 +46,7 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 
 # Runtime Instructions
 ## Activation Instructions
+**Note: This can now be done with a launchfile, see next section if you dont want the gory details** 
 - Open two ssh'ed terminals (see prior instructions), refered to as T1 and T2
 
 - In T1 from the directory LAB5-FOXY-ROBOTICS: "colcon build"
@@ -59,6 +60,11 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 
 - In T2: "ros2 run cv yolo_depth_node"
 - - This spins up the CV node and makes the robot functional
+
+## Launchfile instructions
+- Open 1 terminal
+- run "ros2 launch cv run.launch.py"
+ - This will move the arm to the correct position and start the following behavior through a single entrypoint
 
 ## Deactivation Instructions
 - This assumes the robot has been activated
