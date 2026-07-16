@@ -75,19 +75,32 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 
 **OR**
 
-- In the terminal wher eyou ran the launchfile, press CTRL + C to stop it all!
+- In the terminal where you ran the launchfile, press CTRL + C to stop it all!
 
 # Explanation of Function
 
 ![alt text](img_src/block_diagram.png)
 
-This is a YOLO (You Only Look Once) CV model with a ROS2 skeleton enabling it to take input from a RGBD camera and transform this into distance and heading information that is then turned into motion.
+This is a YOLO (You Only Look Once) CV model with a ROS2 skeleton enabling it to take RGB and Depth input from the cameras and transform this into distance and heading information that is then turned into motion.
 
-From here, the node internally extracts the bounding box associated with the closest human and determines a centroid pixel. Depth information can be extracted for this pixel, and heading information can be extracted by using the position of the centroid pixel relaive to the middle pixel in the feed (whoch is directly in front of the robot). 
+The node feeds the RGB image to the YOLO model, which returns an image containing a  bounding box around the closest thing it recognises as being a human. Then, the node internally extracts the bounding box associated with the closest human and determines a centroid pixel. Depth information can be extracted for this pixel, and heading information can be extracted by using the position of the centroid pixel relaive to the middle pixel in the feed (which is directly in front of the robot). 
 
-This information is then fed into a simple P-controller and translated into the Twist message type resulting in motion. 
+Heading information is fed into a simple P-controller and translated into the Twist message type resulting in the front wheels turning to follow the human, while the published twist message type also contains a constant forwards x-term resulting in forward motion
 
 To change the audio clip played, replace the contents of cv/cv/sream.mp3 or change the value of self.audio in cv/cv/yoloNodeDepth.py
+
+# Areas for future improvment
+-When presented with a crowd of peope (2+) the robot sometimes switches which human it consideres "closest" which can cause it to behave unpredictably and run into people or objects
+
+-Sometimes the robot does not properly stop screaming
+
+-Sometimes the node that holds the YOLO model crashes without warning and we do not know why
+
+-Implement behavior where the robot will attempt to find a human if there are none in frame (if done well enough, you could even play hide-and-seek with it!)
+
+# Dev notes
+
+This project was orignally built to be a quick and dirty novelty project for a final presentation in a class. I had the idea to make a robot that would follow someone and then do something when it got close enough pretty early on, but the idea to use a YOLO model's bounding box to extract heading did not occur until later in the process.
 
 # Package Information
 
