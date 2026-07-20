@@ -2,6 +2,9 @@
 
 This project was created by myself and two of my classmates (Hannah Jasper and Will Hunt) at Colorado School of Mines for the "Lab 5: Make Something Cool" assignment in MEGN 441. 
 
+This is a video of it working:
+![alt text](media_src/IMG_3628.mov)
+
 It enables a HIWONDER Jetson robot (when equipped with a speaker) to track the closest person it can find, follow them until it reaches approx. 1 meter distance, and then play an audio clip (in our case, the withered foxy jumpscare from Five Nights at Freddy's 2)
 
 We were unable to add the speaker (A JBL Flip) via bluetooth, so we used a USB-C to USB-C cable to plug it into the robot directly.
@@ -33,6 +36,10 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 - You are now shelled in!
 
 ## Startup + connection (wired)
+**For some reason I have only been able to get this to work on linux!**
+**Linux boot paritions (i.e. not a VM) SHOULD work**
+**Linux VM's inside a windows machine still remain untested**
+**You man need to go through Linux's Advanced Network Configuration and NETPLAN to add the robot**
 - turn robot on (switch is the silver button on the chassis)
 - plug your computer into the usb port on the Jetson, below the screen
 - open a command line interface (powershell work on windows, bash on linux)
@@ -40,7 +47,7 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 - you are now shelled in!
 
 # Speaker Connection Instructions
-- ensure your speaker is on and plugged into one of the USB-C ports on the jetson
+- ensure your speaker is on and plugged into one of the USB ports on the jetson
 - Enter the ubuntu audio menu in the top right of the touchscreen and select your speaker as the audio output device
 - - TODO: find a way to do this via command line?
 
@@ -79,7 +86,7 @@ CV Model Link: https://github.com/J3lly-Been/YOLOv8-HumanDetection
 
 # Explanation of Function
 
-![alt text](img_src/block_diagram.png)
+![alt text](media_src/block_diagram.png)
 
 This is a YOLO (You Only Look Once) CV model with a ROS2 skeleton enabling it to take RGB and Depth input from the cameras and transform this into distance and heading information that is then turned into motion.
 
