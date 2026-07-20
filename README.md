@@ -5,6 +5,10 @@ This project was created by myself and two of my classmates (Hannah Jasper and W
 This is a video of it working:
 ![alt text](media_src/IMG_3628.mov)
 
+https://github.com/user-attachments/assets/2ad718d6-c4d0-4b96-9e7b-9d66b16722ae
+
+
+
 It enables a HIWONDER Jetson robot (when equipped with a speaker) to track the closest person it can find, follow them until it reaches approx. 1 meter distance, and then play an audio clip (in our case, the withered foxy jumpscare from Five Nights at Freddy's 2)
 
 We were unable to add the speaker (A JBL Flip) via bluetooth, so we used a USB-C to USB-C cable to plug it into the robot directly.
